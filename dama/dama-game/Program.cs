@@ -4,152 +4,107 @@ namespace dama_game
 {
     class Program
     {
+       
+        private static IPlayer p2;
+
         static void Main(string[] args)
         {
 
-            while (true)
-            {
-                Console.WriteLine("Select 'P' if you want play against another player or 'C' if you want play againt computer");
-                string choice = Console.ReadLine();
-                
-                if (choice == "P" || choice == "p")
-                {
-                    Player p1 = new Player("White");
-                    Player p2 = new Player("Black");
-
-
-                    IPlayer toMove = p1;
-
-                    int xs, ys, xe, ye;
-                    var b = new Chessboard(p1, p2);
-                    do
-                    {
-                        try
-                        {
-                            Console.Clear();
-                            Console.WriteLine(b.ToString());
-
-                            Console.WriteLine("Turn: {0}", toMove.Name);
-
-                            Console.WriteLine("Let move from...");
-                            Console.Write("V:");
-                            xs = int.Parse(Console.ReadLine());
-                            Console.WriteLine();
-                            Console.Write("H:");
-                            ys = int.Parse(Console.ReadLine());
-
-                            Console.WriteLine("Let move to...");
-                            Console.Write("V:");
-                            xe = int.Parse(Console.ReadLine());
-                            Console.WriteLine();
-                            Console.Write("H:");
-                            ye = int.Parse(Console.ReadLine());
-
-                            b.MovePawn(toMove, xs, ys, xe, ye);
-
-                            if (toMove == p1)
-                                toMove = p2;
-                            else
-                                toMove = p1;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                            Console.WriteLine("Press to continue...");
-                            Console.ReadLine();
-                        }
-
-                    } while (b.Winner == null);
-
-                    Console.WriteLine("Press to simulate legal move (5,1) -> (4,2)...");
-                    Console.ReadLine();
-
-                    b.MovePawn(p2, 5, 1, 4, 2);
-
-                    Console.WriteLine(b.ToString());
-
-                    Console.WriteLine("Press to simulate play...");
-                    Console.ReadLine();
-
-                    b.SimulatePlay();
-
-                    Console.WriteLine("Winner is {0} with score {1}", b.Winner.Name, b.Winner.Score);
-                    Console.WriteLine("Loser is {0} with score {1}", b.Loser.Name, b.Loser.Score);
-                }
             
-                else if (choice == "C" || choice == "c")
+
+
+            Console.WriteLine("Do you want to play against another player or against the computer?");
+            string choice;
+            do
+            {
+                Console.WriteLine("Type 'G' for another player or 'C' for computers.");
+                choice = Console.ReadLine();
+
+
+                if (choice == "G" || choice == "g")
                 {
-                    Console.WriteLine("You have chosen to play against COMPUTER. Which Difficulty level do you prefer? -> A, B, C");
-                    string diff = Console.ReadLine();
-                    switch (diff)
+                    var p2 = new Player("Black");
+                }
+
+                if (choice == "C" || choice == "c")
+                {
+
+                    Console.WriteLine("You chose to play against the computer. What degree of difficulty do you prefer?");
+
+                    string difficulty;
+                    do
                     {
-                        case "A":
-                            diff = "new PlayerEasyComputer(\"Black\")";
-                            break;
-                        case "a":
-                            diff = "new PlayerEasyComputer(\"Black\")";
-                            break;
-                        case "B":
-                            diff = "new PlayerMediumComputer(\"Black\")";
-                            break;
-                        case "b":
-                            diff = "new PlayerMediumComputer(\"Black\")";
-                            break;
-                        case "C":
-                            diff = "new PlayerHardComputer(\"Black\")";
-                            break;
-                        case "c":
-                            diff = "new PlayerHardComputer(\"Black\")";
-                            break;
+                        Console.WriteLine("Digita 'E' per EASY, 'M' per MEDIUM o 'H' per HARD");
+                        difficulty = Console.ReadLine();
 
-                    }
+                        if (difficulty == "E" || difficulty == "e")
+                        {
+                            var p2 = new PlayerEasyComputer("Black");
+                        }
+                        else if (difficulty == "M" || difficulty == "m")
+                        {
+                            var p2 = new PlayerMediumComputer("Black");
+                        }
+                        else if (difficulty == "H" || difficulty == "h")
+                        {
+                            var p2 = new PlayerHardComputer("Black");
+                        }
 
-                    Player p1 = new Player("White");
-                    Player p2 = diff;
-                    IPlayer toMove = p1;
+                    } while (!(difficulty == "E" || difficulty == "e" || difficulty == "M" || difficulty == "m" || difficulty == "H" || difficulty == "h"));
+                }
+
+            } while (!(choice == "G" || choice == "g" || choice == "C" || choice == "c"));
+
+            //Player p1 = new Player("White");
+            //Player p2 = new PlayerMediumComputer("Black"); 
+
+            var p1 = new Player("White");
+           
+
+            IPlayer toMove = p1;
 
                     int xs, ys, xe, ye;
                     var b = new Chessboard(p1, p2);
-                    do
-                    {
-                        try
-                        {
-                            Console.Clear();
-                            Console.WriteLine(b.ToString());
+            do
+            {
+                try
+                {
+                    Console.Clear();
+                    Console.WriteLine(b.ToString());
 
-                            Console.WriteLine("Turn: {0}", toMove.Name);
+                    Console.WriteLine("Turn: {0}", toMove.Name);
 
-                            Console.WriteLine("Let move from...");
-                            Console.Write("V:");
-                            xs = int.Parse(Console.ReadLine());
-                            Console.WriteLine();
-                            Console.Write("H:");
-                            ys = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Let move from...");
+                    Console.Write("V:");
+                    xs = int.Parse(Console.ReadLine());
+                    Console.WriteLine();
+                    Console.Write("H:");
+                    ys = int.Parse(Console.ReadLine());
 
-                            Console.WriteLine("Let move to...");
-                            Console.Write("V:");
-                            xe = int.Parse(Console.ReadLine());
-                            Console.WriteLine();
-                            Console.Write("H:");
-                            ye = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Let move to...");
+                    Console.Write("V:");
+                    xe = int.Parse(Console.ReadLine());
+                    Console.WriteLine();
+                    Console.Write("H:");
+                    ye = int.Parse(Console.ReadLine());
 
-                            b.MovePawn(toMove, xs, ys, xe, ye);
+                    b.MovePawn(toMove, xs, ys, xe, ye);
 
-                            if (toMove == p1)
-                                toMove = p2;
-                            else
-                                toMove = p1;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                            Console.WriteLine("Press to continue...");
-                            Console.ReadLine();
-                        }
+                    if (toMove == p1)
+                        toMove = p2;
+                    else
+                        toMove = p1;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Press to continue...");
+                    Console.ReadLine();
+                }
 
-                    } while (b.Winner == null);
+            } while (b.Winner == null);
 
-                    Console.WriteLine("Press to simulate legal move (5,1) -> (4,2)...");
+            Console.WriteLine("Press to simulate legal move (5,1) -> (4,2)...");
                     Console.ReadLine();
 
                     b.MovePawn(p2, 5, 1, 4, 2);
@@ -163,14 +118,11 @@ namespace dama_game
 
                     Console.WriteLine("Winner is {0} with score {1}", b.Winner.Name, b.Winner.Score);
                     Console.WriteLine("Loser is {0} with score {1}", b.Loser.Name, b.Loser.Score);
-                }
-        
-                    else
-                    {
-                        Console.WriteLine("ERROR!!! You can select only 'P' or 'C'. Try again.");
-                    }
-            }
         }
+        
+           
+
+
 
 
     }
